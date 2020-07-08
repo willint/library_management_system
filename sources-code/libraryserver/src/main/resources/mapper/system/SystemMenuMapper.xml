@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.library.demo.system.dao.mapper.SystemMenuMapper">
+   
+   <resultMap id="BaseResultMap" type="com.library.demo.system.dao.entity.SystemMenu" >
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="C_ICON" property="icon" jdbcType="VARCHAR" />
+	    <result column="C_INDEX" property="index" jdbcType="VARCHAR" />
+	    <result column="C_TITLE" property="title" jdbcType="VARCHAR" />
+	    <result column="C_PERMISSION" property="permission" jdbcType="VARCHAR" />
+	    <result column="C_DESCRIPTION" property="description" jdbcType="VARCHAR" />
+	    <result column="C_PARENT" property="parent" jdbcType="VARCHAR" />
+	    <result column="C_SEQ" property="seq" jdbcType="VARCHAR" />
+	    <result column="C_TYPE" property="type" jdbcType="VARCHAR" />
+	    <result column="C_STATE" property="state" jdbcType="VARCHAR" />
+	    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    m.ID, m.C_ICON, m.C_INDEX, m.C_TITLE, m.C_PERMISSION, m.C_DESCRIPTION, m.C_PARENT, m.C_SEQ, m.C_TYPE, m.C_STATE, m.CREATE_DATE ,m.C_SEQ
+  </sql>
+  <!-- 通过用户ID查询 -->
+  <select id="findMenuByUserId"  resultMap="BaseResultMap">
+		SELECT DISTINCT
+			<include refid="Base_Column_List" />
+		from system_menu m,system_role_menu rm, system_user_role ur
+		WHERE m.C_TYPE=0 and ur.USER_ID= #{userId}
+		and m.ID = rm.MENU_ID and rm.ROLE_ID = ur.ROLE_ID
+		ORDER BY m.C_SEQ
+  </select>
+  
+  <!-- 通过用户ID查询 -->
+  <select id="findSysMenu"  resultMap="BaseResultMap">
+		SELECT DISTINCT
+			<include refid="Base_Column_List" />
+		from system_menu m WHERE m.C_TYPE=0  ORDER BY m.C_SEQ
+  </select>
+  
+  <!-- 通过角色ID查询 -->
+  <select id="findMenuByRoleId"  resultMap="BaseResultMap">
+		SELECT DISTINCT
+			<include refid="Base_Column_List" />
+		from system_menu m,system_role_menu rm
+		WHERE m.C_TYPE=0 and rm.ROLE_ID= #{roleId} and m.ID = rm.MENU_ID
+		ORDER BY m.C_SEQ
+  </select>
+
+    <!-- 通过用户ID查询权限 -->
+    <select id="findPermissionByUserId"  resultType="java.lang.String">
+        SELECT DISTINCT m.C_PERMISSION
+        from system_menu m,system_role_menu rm, system_user_role ur
+		WHERE ur.USER_ID= #{userId} and m.ID = rm.MENU_ID and rm.ROLE_ID = ur.ROLE_ID
+    </select>
+
+    <!-- 通过角色ID查询权限 -->
+    <select id="findPermissionByRoleId"  resultType="java.lang.String">
+        SELECT DISTINCT m.C_PERMISSION
+        from system_menu m,system_role_menu rm
+		WHERE rm.ROLE_ID= #{roleId} and m.ID = rm.MENU_ID
+    </select>
+    
+    <!-- 通过用户ID查询 -->
+  <select id="findAllMenuIdByRoleId"  resultType="java.lang.String">
+		SELECT DISTINCT rm.MENU_ID from system_role_menu rm WHERE rm.ROLE_ID= #{roleId}
+  </select>
+
+</mapper>

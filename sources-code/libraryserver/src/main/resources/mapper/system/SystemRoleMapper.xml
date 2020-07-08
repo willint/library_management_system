@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.library.demo.system.dao.mapper.SystemRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.library.demo.system.dao.entity.SystemRole" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IS_SYS" property="isSys" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    r.ID, r.NAME, r.IS_SYS, r.REMARKS, r.CREATE_DATE, r.UPDATE_DATE
+  </sql>
+  
+  <!-- 通过用户ID角色 -->
+  <select id="findRoleByUserId"  resultMap="BaseResultMap">
+		SELECT 
+		   <include refid="Base_Column_List" />
+		FROM system_role r ,system_user_role ur
+		WHERE ur.USER_ID= #{userId} and r.ID=ur.ROLE_ID and r.IS_SYS != '1'
+  </select>
+  
+  <!-- 查询非用户角色 -->
+  <select id="findRoleNoUserId"  resultMap="BaseResultMap">
+		SELECT 
+		   <include refid="Base_Column_List" />
+		FROM system_role r
+		WHERE r.ID NOT IN (SELECT ur.ROLE_ID FROM system_user_role ur WHERE ur.USER_ID = #{userId}) and r.IS_SYS != '1'
+  </select>
+  
+</mapper>
