@@ -48,6 +48,9 @@ D:\project\workspace_libraray_system\deploy\server>java -jar libraryserver-0.0.1
 打包输出如下命令
 >npm run build
 
+登录用户名 , 管理员 admin/112233 
+libsys01/123456
+libsysadmin/123456
 
 ### libraryserver为java微服务项目，maven管理依赖
 #### 这里用eclipse 引入项目 , 在eclipse 对项目进行依赖构建
