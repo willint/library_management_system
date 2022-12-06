@@ -26,7 +26,7 @@
 		<alipay.version>3.4.49.ALL</alipay.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<commons.io.version>2.6</commons.io.version>
-		<commons.net.version>3.3</commons.net.version>
+		<commons.net.version>3.9.0</commons.net.version>
 		<fastjson.version>1.2.47</fastjson.version>
 		<guava.version>17.0</guava.version>
 		<mybatis-plus-boot-starter.version>2.1.9</mybatis-plus-boot-starter.version>
